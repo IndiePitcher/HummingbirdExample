@@ -1,4 +1,3 @@
-{{#HB_VSCODE_SNIPPETS}}
 {
     "Endpoint": {
         "prefix": "endpoint",
@@ -42,4 +41,3 @@
         "description": "Hummingbird: Decode request"
     }
 }
-{{/HB_VSCODE_SNIPPETS}}
