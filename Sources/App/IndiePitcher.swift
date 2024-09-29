@@ -5,8 +5,14 @@ extension BasicRequestContext {
     var indiePitcher: IndiePitcher {
         get async {
 
-            let env = try? await Environment.dotEnv()
-            guard let apiKey = env?.get("INDIEPITCHER_SECRET_KEY") else {
+            var apiKey: String?
+            apiKey = Environment().get("INDIEPITCHER_SECRET_KEY")
+
+            if apiKey == nil {
+                apiKey = try? await Environment.dotEnv().get("INDIEPITCHER_SECRET_KEY")
+            }
+
+            guard let apiKey else {
                 preconditionFailure("Requires \"INDIEPITCHER_SECRET_KEY\" environment variable")
             }
 
