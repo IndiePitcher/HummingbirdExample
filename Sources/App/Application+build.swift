@@ -50,7 +50,7 @@ func buildRouter() -> Router<AppRequestContext> {
     }
     // Add default endpoint
     router.get("/") { _, _ in
-        return "Hello! Trigger an email by visiting /send_email endpoint"
+        return "Hello! Trigger an email by visiting /send_email endpoint!"
     }
 
     router.get("/send_email") { _, context in

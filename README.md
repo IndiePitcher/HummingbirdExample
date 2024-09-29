@@ -1,5 +1,5 @@
 # HummingbirdExample
-Hummingbird server framework project
+Example demonstrating how to send an email using [IndiePitcher](https://indiepitcher.com) from a Hummingbird backend.
 
 - Create a free account at https://indiepitcher.com
 - Create a new project
