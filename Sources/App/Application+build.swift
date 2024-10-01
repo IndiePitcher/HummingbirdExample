@@ -35,7 +35,7 @@ public func buildApplication(_ arguments: some AppArguments) async throws
         preconditionFailure("Requires \"INDIEPITCHER_SECRET_KEY\" environment variable")
     }
 
-    let indiePitcher = IndiePitcher(client: .shared, apiKey: apiKey)
+    let indiePitcher = IndiePitcher(apiKey: apiKey)
 
     let router = buildRouter(indiePitcher: indiePitcher)
     let app = Application(
