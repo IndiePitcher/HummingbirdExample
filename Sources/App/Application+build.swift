@@ -1,4 +1,5 @@
 import Hummingbird
+import IndiePitcherSwift
 import Logging
 
 /// Application arguments protocol. We use a protocol so we can call
@@ -19,7 +20,8 @@ typealias AppRequestContext = BasicRequestContext
 public func buildApplication(_ arguments: some AppArguments) async throws
     -> some ApplicationProtocol
 {
-    let environment = Environment()
+    let environment = try await Environment().merging(with: .dotEnv())
+
     let logger = {
         var logger = Logger(label: "HummingbirdExample")
         logger.logLevel =
@@ -28,7 +30,14 @@ public func buildApplication(_ arguments: some AppArguments) async throws
             } ?? .info
         return logger
     }()
-    let router = buildRouter()
+
+    guard let apiKey = environment.get("INDIEPITCHER_SECRET_KEY") else {
+        preconditionFailure("Requires \"INDIEPITCHER_SECRET_KEY\" environment variable")
+    }
+
+    let indiePitcher = IndiePitcher(client: .shared, apiKey: apiKey)
+
+    let router = buildRouter(indiePitcher: indiePitcher)
     let app = Application(
         router: router,
         configuration: .init(
@@ -41,13 +50,14 @@ public func buildApplication(_ arguments: some AppArguments) async throws
 }
 
 /// Build router
-func buildRouter() -> Router<AppRequestContext> {
+func buildRouter(indiePitcher: IndiePitcher) -> Router<AppRequestContext> {
     let router = Router(context: AppRequestContext.self)
     // Add middleware
     router.addMiddleware {
         // logging middleware
         LogRequestsMiddleware(.info)
     }
+
     // Add default endpoint
     router.get("/") { _, _ in
         return "Hello! Trigger an email by visiting /send_email endpoint!"
@@ -56,10 +66,10 @@ func buildRouter() -> Router<AppRequestContext> {
     router.get("/send_email") { _, context in
 
         let emailBody = """
-        This is an email sent from a **hummingbird 2 backend**!
-        """
+            This is an email sent from a **hummingbird 2 backend**!
+            """
 
-        try await context.indiePitcher.sendEmail(
+        try await indiePitcher.sendEmail(
             data: .init(
                 to: "petr@indiepitcher.com",
                 subject: "This is an email sent from a hummingbird 2 backend", body: emailBody,

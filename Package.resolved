@@ -1,5 +1,5 @@
 {
-  "originHash" : "ccf44bad52148231675746a56d946f4944d1d8d5acc1692883c6ef52f4e834a6",
+  "originHash" : "e5b1417db34b184e39104553b14beb06f1ef3f093d6ce0a51281f9af210b8286",
   "pins" : [
     {
       "identity" : "async-http-client",
@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/IndiePitcher/indiepitcher-swift.git",
       "state" : {
-        "revision" : "26417a2af06f7c7ed24e65c3d69934d678c9c193",
-        "version" : "1.0.1"
+        "revision" : "6ffaacb99800a448653d7537d6e57cf27c70525c",
+        "version" : "1.1.0"
       }
     },
     {
